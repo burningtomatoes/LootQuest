@@ -1,4 +1,4 @@
-Shooty game
+Loot Quest
 =======
 
 About the challenge
@@ -6,14 +6,6 @@ About the challenge
 I developed this game as part of my "build one HTML5 game a week" challenge. I build a new game every week, and release the source code to it. I hope to get better at game development, and I hope that it will be useful to you too.
 
 If you're interested in learning more about this, visit <http://www.burningtomato.com>. I publish all the games I build on that website. You can also follow me on Twitter at <https://twitter.com/burningtomato>.
-
-About the game
----
-This is game number two.
-
-In this game you play as chronic lazy man Fatzö Yzal, who will do anything to avoid having to work one day of his life. Even if that means eating his way into disability.
-
-Run through the world's most crappy supermarket, collect as much food as you can while avoiding the healthy food and obstacles on the way.
 
 Building the source code
 ---
