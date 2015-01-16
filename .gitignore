@@ -1,0 +1,9 @@
+# Node.js modules (use npm install to generate)
+node_modules
+
+# Build output (use grunt to generate)
+build
+
+# CSS (use scss to generate)
+assets/web/game.css.map
+assets/web/game.css
