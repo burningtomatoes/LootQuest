@@ -2,15 +2,13 @@ var Sfx = {
     sounds: { },
 
     preload: function() {
-        this.load('burningtomato.wav');
+
     },
 
     load: function(fileName) {
         if (typeof Sfx.sounds[fileName] != 'undefined') {
             return Sfx.sounds[fileName];
         }
-
-        console.info('[SFX] Loading sound effect', fileName);
 
         Sfx.sounds[fileName] = new Audio('assets/sfx/' + fileName);
         Sfx.sounds[fileName].load();

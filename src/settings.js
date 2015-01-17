@@ -1,3 +1,3 @@
 var Settings = {
-    skipBootLogo: false
+    skipBootLogo: true
 };

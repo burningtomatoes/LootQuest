@@ -11,6 +11,10 @@ $(document).ready(function() {
     // Initialize canvas rendering
     Game.initialize();
 
+    // Begin preloading audio and textures
+    Sfx.preload();
+    Gfx.preload();
+
     // Show boot logo (a burning tomato) if it is enabled, then start the game
     var startGame = function () {
         Game.start();
