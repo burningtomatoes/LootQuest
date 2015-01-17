@@ -7,3 +7,6 @@ build
 # CSS (use scss to generate)
 assets/web/game.css.map
 assets/web/game.css
+
+# Idea workspace.xml
+.idea/workspace.xml
