@@ -64,10 +64,9 @@ var Entity = Class.extend({
                 ctx.translate(-this.width, -this.height);
                 break;
             case Direction.LEFT:
-                ctx.rotate(90 * Math.PI / 180);
-                ctx.translate(-this.height / 2, -this.width + (this.width / 4));
-                ctx.scale(-1, 1);
-                ctx.translate(-(this.width), 0);
+                ctx.rotate(270 * Math.PI / 180);
+                ctx.translate(-this.width + (this.width / 4), this.height / 2);
+                //ctx.translate(-this.height / 2 , -this.width + (this.width / 4));
                 break;
         }
 
