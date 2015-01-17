@@ -22,6 +22,9 @@ var Entity = Class.extend({
 
     direction: 0,
 
+    headBobTimer: 0,
+    headBob: 0,
+
     init: function() {
         this.width = 32;
         this.height = 32;
@@ -69,7 +72,7 @@ var Entity = Class.extend({
         }
 
         if (this.sprite != null) {
-            ctx.drawImage(this.sprite, 0, 0, this.width, this.height, 0, 0, this.width, this.height);
+            ctx.drawImage(this.sprite, 0, 0, this.width, this.height, this.headBob, 0, this.width, this.height);
         }
 
         ctx.restore();
@@ -78,5 +81,18 @@ var Entity = Class.extend({
     update: function() {
         this.posX += this.velocityX;
         this.posY += this.velocityY;
+
+        if (this.velocityX != 0 || this.velocityY != 0) {
+            if (this.headBobTimer > 0) {
+                this.headBobTimer--;
+            }
+
+            if (this.headBobTimer <= 0) {
+                this.headBob = (this.headBob == 1 ? -1 : 1);
+                this.headBobTimer = 15;
+            }
+        } else {
+            this.headBob = 0;
+        }
     }
 });
