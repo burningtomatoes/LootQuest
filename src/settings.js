@@ -3,5 +3,6 @@ var Settings = {
 
     countFps: true,
     skipBootLogo: true,
-    skipIntroDialogue: true
+    skipIntroDialogue: true,
+    drawCollisions: true
 };

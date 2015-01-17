@@ -70,6 +70,63 @@ var Map = Class.extend({
         this.tileset = Gfx.load(tilesetSrc);
         this.layers = this.data.layers;
         this.tilesPerRow = this.data.tilesets[0].imagewidth / Settings.tileSize;
+
+        this.prepareBlockMap();
+    },
+
+    blockedTiles: [],
+
+    prepareBlockMap: function () {
+        this.blockedTiles = [];
+
+        var layerCount = this.layers.length;
+
+        for (var i = 0; i < layerCount; i++) {
+            var layer = this.layers[i];
+            var layerDataLength = layer.data.length;
+
+            var x = -1;
+            var y = 0;
+
+            var isBlocking = typeof(layer.properties) != 'undefined' && layer.properties.blocked == '1';
+
+            if (!isBlocking) {
+                continue;
+            }
+
+            for (var tileIdx = 0; tileIdx < layerDataLength; tileIdx++) {
+                var tid = layer.data[tileIdx];
+
+                x++;
+
+                if (x >= this.width) {
+                    y++;
+                    x = 0;
+                }
+
+                if (tid === 0) {
+                    // Invisible (no tile set for this position)
+                    continue;
+                }
+
+                this.blockedTiles.push(x);
+                this.blockedTiles.push(y);
+            }
+        }
+    },
+
+    isCoordBlocked: function (x, y) {
+        // Every even index contains X coord, odd index contains Y coord
+        for (var i = 0; i < this.blockedTiles.length; i += 2) {
+            var x2 = this.blockedTiles[i];
+            var y2 = this.blockedTiles[i + 1];
+
+            if (x == x2 && y == y2) {
+                return true;
+            }
+        }
+
+        return false;
     },
 
     clear: function () {
@@ -120,6 +177,8 @@ var Map = Class.extend({
             var x = -1;
             var y = 0;
 
+            var isBlocking = Settings.drawCollisions && typeof(layer.properties) != 'undefined' && layer.properties.blocked == '1';
+
             for (var tileIdx = 0; tileIdx < layerDataLength; tileIdx++) {
                 var tid = layer.data[tileIdx];
 
@@ -146,6 +205,14 @@ var Map = Class.extend({
                 var destY = y * Settings.tileSize;
 
                 ctx.drawImage(this.tileset, srcX, srcY, Settings.tileSize, Settings.tileSize, destX, destY, Settings.tileSize, Settings.tileSize);
+
+                if (isBlocking) {
+                    ctx.beginPath();
+                    ctx.rect(destX, destY, Settings.tileSize, Settings.tileSize);
+                    ctx.strokeStyle = "#FCEB77";
+                    ctx.stroke();
+                    ctx.closePath();
+                }
             }
         }
     },
