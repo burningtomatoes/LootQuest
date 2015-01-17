@@ -8,5 +8,17 @@ $(document).ready(function() {
     console.log('            \\/                        \\__>           \\/     \\/        ');
     console.log('');
 
+    // Initialize canvas rendering
     Game.initialize();
+
+    // Show boot logo (a burning tomato) if it is enabled, then start the game
+    var startGame = function () {
+        Game.start();
+    };
+
+    if (!Settings.skipBootLogo) {
+        BootLogo.show(startGame);
+    } else {
+        startGame();
+    }
 });

@@ -8,13 +8,20 @@
   src: url('../fonts/pixelmix_bold.ttf');
 }
 
-/** Reset **/
+/** Reset & core **/
 * {
   box-sizing: border-box;
 }
 html, body {
   margin: 0;
   padding: 0;
+  text-align: center;
+}
+img {
+  border: 0;
+}
+.hide {
+  display: none;
 }
 
 /** Typography **/
@@ -48,4 +55,17 @@ canvas {
   image-rendering: -o-crisp-edges;
   image-rendering: pixelated;
   -ms-interpolation-mode: nearest-neighbor;
+}
+
+/** Boot logo **/
+#burningtomato {
+  $height: 455px;
+  height: $height;
+  top: 50%;
+  margin-top: -($height / 2) - 50;
+  position: fixed;
+  text-align: center;
+  width: 100%;
+  left: 0;
+  right: 0;
 }
