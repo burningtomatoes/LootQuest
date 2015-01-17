@@ -1,0 +1,51 @@
+/** Fonts **/
+@font-face {
+  font-family: 'Pixelmix';
+  src: url('../fonts/pixelmix.ttf');
+}
+@font-face {
+  font-family: 'PixelmixBold';
+  src: url('../fonts/pixelmix_bold.ttf');
+}
+
+/** Reset **/
+* {
+  box-sizing: border-box;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+/** Typography **/
+body {
+  background: #000;
+  color: #fff;
+  text-align: center;
+  font-family: Pixelmix, monospace;
+  font-size: 6pt * 2;
+}
+h1, h2, h3, h4, h5, b, strong {
+  font-family: PixelmixBold, Pixelmix, monospace;
+  font-weight: normal;
+}
+h1 {
+  font-size: 6pt * 4;
+}
+h2 {
+  font-size: 6pt * 3;
+}
+h3 {
+  font-size: 6pt * 2;
+}
+
+/** Canvas **/
+canvas {
+  /** We want nearest neighbor stretching (pixelated) for all canvas elements **/
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
+}
