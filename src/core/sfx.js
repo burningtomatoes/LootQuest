@@ -2,7 +2,8 @@ var Sfx = {
     sounds: { },
 
     preload: function() {
-
+        // Note to self: Do not preload "burning tomato". It doesn't work due to timing issues and just causes overhead.
+        this.load('dialogue_tick.wav');
     },
 
     load: function(fileName) {
