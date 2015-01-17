@@ -78,3 +78,12 @@ canvas {
   left: 0;
   right: 0;
 }
+
+/** Debug **/
+#fps {
+  position: fixed;
+  top: 0;
+  right: 0;
+  padding: 10px;
+  background: rgba(0, 0, 0, 0.5);
+}
