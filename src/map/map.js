@@ -25,6 +25,8 @@ var Map = Class.extend({
         this.id = id;
         this.loading = true;
 
+        console.info('[Map] Loading map', id);
+
         $.get('assets/maps/' + id + '.json')
 
             .success(function(data) {
