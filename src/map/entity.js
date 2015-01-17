@@ -36,6 +36,10 @@ var Entity = Class.extend({
         this.posY = y;
     },
 
+    setCoord: function(x, y) {
+        this.setPos(x * Settings.tileSize, y * Settings.tileSize);
+    },
+
     getPos: function() {
         return {
             x: this.posX,

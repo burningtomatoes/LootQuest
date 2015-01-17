@@ -18,6 +18,13 @@ var Game = {
                 Canvas.$canvas.delay(200).fadeIn('slow');
             });
             this.map.add(new Player());
+
+            Dialogue.prepare([
+                { text: 'What..what is this?', player: true },
+                { text: 'Where am I?', player: true }
+            ]);
+            Dialogue.show();
+
         }.bind(this);
 
         if (Canvas.$canvas.is(':visible')) {
@@ -38,6 +45,7 @@ var Game = {
             this.map.update();
         }
 
+        Dialogue.update();
         Keyboard.update();
     }
 };
