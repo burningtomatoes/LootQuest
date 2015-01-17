@@ -4,6 +4,7 @@ var Canvas = {
     context: null,
 
     lastRenderTime: null,
+    fps: 0,
 
     /**
      * Binds to the canvas element on the page, configures it and begins the update/render loop.
@@ -30,9 +31,27 @@ var Canvas = {
         var loop = function() {
             window.requestAnimationFrame(loop);
 
-            Game.draw();
-            Game.update(this.context);
+            Game.draw(this.context);
+            Game.update();
+
+            if (Settings.countFps) {
+                if (this.lastRenderTime == null) {
+                    this.lastRenderTime = Date.now();
+                    this.fps = 0;
+                    return;
+                }
+
+                var delta = (new Date().getTime() - this.lastRenderTime) / 1000;
+                this.lastRenderTime = Date.now();
+                this.fps = 1 / delta;
+            }
         }.bind(this);
+
+        if (Settings.countFps) {
+            window.setInterval(function() {
+                $('#fps').text('FPS: ' + this.fps.toFixed(0));
+            }.bind(this), 1000);
+        }
 
         loop();
     }

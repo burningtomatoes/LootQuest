@@ -1,3 +1,5 @@
 var Settings = {
-    skipBootLogo: true
+    countFps: true,
+    skipBootLogo: true,
+    tileSize: 32
 };
