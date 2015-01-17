@@ -25,7 +25,7 @@ var Player = Entity.extend({
         if (Keyboard.isKeyDown(KeyEvent.DOM_VK_UP) || Keyboard.isKeyDown(KeyEvent.DOM_VK_W)) {
             this.velocityY = -this.movementSpeed;
             this.direction = Direction.UP;
-        } else if (Keyboard.isKeyDown(KeyEvent.DOM_VK_DOWN) || Keyboard.isKeyDown(Keyboard.DOM_VK_S)) {
+        } else if (Keyboard.isKeyDown(KeyEvent.DOM_VK_DOWN) || Keyboard.isKeyDown(KeyEvent.DOM_VK_S)) {
             this.velocityY = +this.movementSpeed;
             this.direction = Direction.DOWN;
         } else {
