@@ -3,6 +3,7 @@ var Game = {
 
     initialize: function () {
         Canvas.initialize();
+        Keyboard.bind();
     },
 
     start: function () {
@@ -16,6 +17,7 @@ var Game = {
             this.map.load(id, function () {
                 Canvas.$canvas.delay(200).fadeIn('slow');
             });
+            this.map.add(new Player());
         }.bind(this);
 
         if (Canvas.$canvas.is(':visible')) {
@@ -35,5 +37,7 @@ var Game = {
         if (this.map != null) {
             this.map.update();
         }
+
+        Keyboard.update();
     }
 };

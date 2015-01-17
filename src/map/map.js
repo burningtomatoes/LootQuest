@@ -5,12 +5,14 @@ var Map = Class.extend({
     loading: false,
     loaded: false,
     data: null,
+    darkness: null,
 
     init: function () {
         this.clear();
 
         this.loading = false;
         this.loaded = false;
+        this.darkness = Gfx.load('darkness');
     },
 
     load: function (id, callback) {
@@ -83,7 +85,7 @@ var Map = Class.extend({
     },
 
     add: function (e) {
-        this.entities.add(e);
+        this.entities.push(e);
     },
 
     remove: function (e) {
@@ -104,6 +106,8 @@ var Map = Class.extend({
 
         this.drawBackground(ctx);
         this.drawEntities(ctx);
+
+        ctx.drawImage(this.darkness, 0, 0, Canvas.canvas.width, Canvas.canvas.height, 0, 0, Canvas.canvas.width, Canvas.canvas.height);
     },
 
     drawBackground: function (ctx) {
