@@ -16,19 +16,18 @@ var Game = {
             this.map = new Map();
             this.map.load(id, function () {
                 Canvas.$canvas.delay(200).fadeIn('slow');
-            });
-            this.map.add(new Player());
+                this.map.addPlayer(new Player());
 
-            if (!Settings.skipIntroDialogue) {
-                Dialogue.prepare([
-                    { text: 'What..what is this?', player: true },
-                    { text: 'Where am I?', player: true }
-                ]);
-                Dialogue.show();
-            } else {
-                this.map.resume();
-            }
-
+                if (!Settings.skipIntroDialogue) {
+                    Dialogue.prepare([
+                        { text: 'What..what is this?', player: true },
+                        { text: 'Where am I?', player: true }
+                    ]);
+                    Dialogue.show();
+                } else {
+                    this.map.resume();
+                }
+            }.bind(this));
         }.bind(this);
 
         if (Canvas.$canvas.is(':visible')) {
@@ -51,5 +50,6 @@ var Game = {
 
         Dialogue.update();
         Keyboard.update();
+        Camera.update();
     }
 };

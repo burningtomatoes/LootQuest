@@ -73,7 +73,7 @@ var Entity = Class.extend({
 
     draw: function(ctx) {
         ctx.save();
-        ctx.translate(this.posX, this.posY);
+        ctx.translate(Camera.translateX(this.posX), Camera.translateY(this.posY));
 
         // Beware: I just sort of bruteforced these translations until they looked right. So, yeah.
         switch (this.direction) {
@@ -107,7 +107,7 @@ var Entity = Class.extend({
             var r = this.getRect();
 
             ctx.beginPath();
-            ctx.rect(r.left, r.top, r.width, r.height);
+            ctx.rect(Camera.translateX(r.left), Camera.translateY(r.top), r.width, r.height);
             ctx.strokeStyle = "#FFCCAA";
             ctx.stroke();
             ctx.closePath();

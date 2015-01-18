@@ -72,6 +72,8 @@ var Map = Class.extend({
         this.tilesPerRow = this.data.tilesets[0].imagewidth / Settings.tileSize;
 
         this.prepareBlockMap();
+
+        Camera.centerToMap();
     },
 
     blockedTiles: [],
@@ -167,8 +169,17 @@ var Map = Class.extend({
         $('#hud').show();
     },
 
+    player: null,
+
     add: function (e) {
         this.entities.push(e);
+    },
+
+    addPlayer: function (e) {
+        this.player = e;
+        this.add(e);
+
+        Camera.followEntity(e);
     },
 
     remove: function (e) {
@@ -227,8 +238,8 @@ var Map = Class.extend({
                 var srcY = fullRows * Settings.tileSize;
                 var srcX = (tid * Settings.tileSize) - (fullRows * this.tilesPerRow * Settings.tileSize);
 
-                var destX = x * Settings.tileSize;
-                var destY = y * Settings.tileSize;
+                var destX = Camera.translateX(x * Settings.tileSize);
+                var destY = Camera.translateY(y * Settings.tileSize);
 
                 ctx.drawImage(this.tileset, srcX, srcY, Settings.tileSize, Settings.tileSize, destX, destY, Settings.tileSize, Settings.tileSize);
 
