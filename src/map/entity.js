@@ -27,11 +27,32 @@ var Entity = Class.extend({
 
     weapon: null,
 
+    healthValue: 6,
+    healthCapacity: 12,
+    dead: false,
+
     init: function() {
         this.width = 32;
         this.height = 32;
         this.direction = Direction.DOWN;
         this.weapon = new Weapon();
+    },
+
+    damage: function (changeValue) {
+        if (this.dead) {
+            return;
+        }
+
+        this.healthValue -= changeValue;
+
+        if (this.healthValue <= 0) {
+            this.healthValue = 0;
+            this.die();
+        }
+    },
+
+    die: function() {
+        this.dead = true;
     },
 
     setPos: function(x, y) {
@@ -122,6 +143,10 @@ var Entity = Class.extend({
     },
 
     update: function() {
+        if (this.dead) {
+            return;
+        }
+
         if (this.velocityX < 0 && !this.canMoveLeft()) {
             this.velocityX = 0;
         }

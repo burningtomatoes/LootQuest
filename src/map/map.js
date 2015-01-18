@@ -107,6 +107,8 @@ var Map = Class.extend({
         var player = new Player();
         this.configureSpawn(player);
         this.addPlayer(player);
+
+        this.add(new Goblin());
     },
 
     configureSpawn: function (playerEntity) {

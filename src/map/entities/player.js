@@ -1,6 +1,4 @@
 var Player = Entity.extend({
-    healthValue: 6,
-    healthCapacity: 12,
     damageFlash: 0,
 
     isTeleporting: false,
@@ -43,30 +41,17 @@ var Player = Entity.extend({
     },
 
     damage: function (changeValue) {
-        if (this.healthValue <= 0) {
-            return;
-        }
-
-        if (changeValue > 0) {
+        if (changeValue > 0 && !this.dead) {
             this.damageFlash = 1;
         }
 
-        this.healthValue -= changeValue;
-
-        if (this.healthValue <= 0) {
-            this.healthValue = 0;
-            this.die();
-        }
+        this._super(changeValue);
 
         this.syncHealthUi();
     },
 
-    die: function() {
-        alert('u ded');
-    },
-
     update: function() {
-        if (!this.isTeleporting) {
+        if (!this.isTeleporting && !this.dead) {
             if (Keyboard.isKeyDown(KeyEvent.DOM_VK_LEFT) || Keyboard.isKeyDown(KeyEvent.DOM_VK_A)) {
                 this.velocityX = -this.movementSpeed;
                 this.direction = Direction.LEFT;
@@ -90,6 +75,10 @@ var Player = Entity.extend({
             if (this.damageFlash > 0) {
                 this.damageFlash--;
             }
+        }
+
+        if (this.dead) {
+            this.damageFlash = Infinity;
         }
 
         this._super();
