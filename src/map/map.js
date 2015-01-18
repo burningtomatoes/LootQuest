@@ -41,7 +41,9 @@ var Map = Class.extend({
                 callback(true);
             }.bind(this))
 
-            .error(function() {
+            .error(function(obj, msg, e) {
+                console.error('[Map] A network error occurred while loading the map data.', msg, e);
+
                 this.loading = false;
                 this.loaded = false;
 
