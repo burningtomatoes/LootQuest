@@ -25,10 +25,13 @@ var Entity = Class.extend({
     headBobTimer: 0,
     headBob: 0,
 
+    weapon: null,
+
     init: function() {
         this.width = 32;
         this.height = 32;
         this.direction = Direction.DOWN;
+        this.weapon = new Weapon();
     },
 
     setPos: function(x, y) {
@@ -93,6 +96,10 @@ var Entity = Class.extend({
                 break;
         }
 
+        if (this.weapon != null) {
+            this.weapon.draw(this, ctx);
+        }
+
         if (this.spriteShadow != null) {
             ctx.drawImage(this.spriteShadow, 0, 0, this.width, this.height, 1, 1, this.width, this.height);
         }
@@ -145,6 +152,10 @@ var Entity = Class.extend({
             }
         } else {
             this.headBob = 0;
+        }
+
+        if (this.weapon != null) {
+            this.weapon.update(this);
         }
     },
 

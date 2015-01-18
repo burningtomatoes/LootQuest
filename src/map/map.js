@@ -136,8 +136,6 @@ var Map = Class.extend({
             orientation = parseInt(dataBits[2]);
         }
 
-        console.log(orientation);
-
         playerEntity.setCoord(coordX, coordY);
         playerEntity.direction = orientation;
     },

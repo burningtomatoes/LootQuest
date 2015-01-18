@@ -23,5 +23,7 @@ var Gfx = {
         this.load('hero_shadow');
 
         this.load('darkness');
+
+        this.load('sword_basic');
     }
 };
