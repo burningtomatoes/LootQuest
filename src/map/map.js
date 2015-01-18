@@ -88,6 +88,7 @@ var Map = Class.extend({
 
     blockedTiles: [],
     blockedRects: [],
+    teleRects: [],
 
     prepareBlockMap: function () {
         this.blockedTiles = [];
@@ -102,10 +103,7 @@ var Map = Class.extend({
             var y = 0;
 
             var isBlocking = typeof(layer.properties) != 'undefined' && layer.properties.blocked == '1';
-
-            if (!isBlocking) {
-                continue;
-            }
+            var isTeleportingTo = typeof(layer.properties) != 'undefined' && layer.properties.teleport != null ? layer.properties.teleport : null;
 
             for (var tileIdx = 0; tileIdx < layerDataLength; tileIdx++) {
                 var tid = layer.data[tileIdx];
@@ -122,9 +120,6 @@ var Map = Class.extend({
                     continue;
                 }
 
-                this.blockedTiles.push(x);
-                this.blockedTiles.push(y);
-
                 var rect = {
                     top: y * Settings.tileSize,
                     left: x * Settings.tileSize,
@@ -134,7 +129,16 @@ var Map = Class.extend({
                 rect.bottom = rect.top + rect.height;
                 rect.right = rect.left + rect.width;
 
-                this.blockedRects.push(rect);
+                if (isBlocking) {
+                    this.blockedTiles.push(x);
+                    this.blockedTiles.push(y);
+                    this.blockedRects.push(rect);
+                }
+
+                if (isTeleportingTo != null) {
+                    rect.teleportTo = isTeleportingTo;
+                    this.teleRects.push(rect);
+                }
             }
         }
     },
@@ -156,6 +160,7 @@ var Map = Class.extend({
 
     isRectBlocked: function(rect) {
         var blockedRectsLength = this.blockedRects.length;
+
         for (var i = 0; i < blockedRectsLength; i++) {
             if (Utils.rectIntersects(rect, this.blockedRects[i])) {
                 return true;
@@ -163,6 +168,18 @@ var Map = Class.extend({
         }
 
         return false;
+    },
+
+    getTeleport: function(rect) {
+        var teleportsLength = this.teleRects.length;
+
+        for (var i = 0; i < teleportsLength; i++) {
+            if (Utils.rectIntersects(rect, this.teleRects[i])) {
+                return this.teleRects[i].teleportTo;
+            }
+        }
+
+        return null;
     },
 
     clear: function () {
@@ -225,6 +242,10 @@ var Map = Class.extend({
             var y = 0;
 
             var isBlocking = Settings.drawCollisions && typeof(layer.properties) != 'undefined' && layer.properties.blocked == '1';
+
+            if (!Settings.drawCollisions && !layer.visible) {
+                continue;
+            }
 
             for (var tileIdx = 0; tileIdx < layerDataLength; tileIdx++) {
                 var tid = layer.data[tileIdx];

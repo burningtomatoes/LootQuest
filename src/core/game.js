@@ -14,7 +14,12 @@ var Game = {
     loadMap: function (id) {
         var execLoad = function() {
             this.map = new Map();
-            this.map.load(id, function () {
+            this.map.load(id, function (okay) {
+                if (!okay) {
+                    alert('Something went wrong, could not load the next part of the game. Sorry... we let you down.');
+                    return;
+                }
+
                 Canvas.$canvas.delay(200).fadeIn('slow');
                 this.map.addPlayer(new Player());
 
@@ -30,7 +35,7 @@ var Game = {
             }.bind(this));
         }.bind(this);
 
-        if (Canvas.$canvas.is(':visible')) {
+        if (!Canvas.$canvas.is(':visible')) {
             execLoad();
         } else {
             Canvas.$canvas.fadeOut('fast', execLoad);
