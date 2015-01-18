@@ -1,6 +1,7 @@
 var Player = Entity.extend({
     healthValue: 6,
     healthCapacity: 12,
+    damageFlash: 0,
 
     init: function() {
         this._super();
@@ -39,12 +40,16 @@ var Player = Entity.extend({
         }
     },
 
-    damage: function (health) {
+    damage: function (changeValue) {
         if (this.healthValue <= 0) {
             return;
         }
 
-        this.healthValue -= health;
+        if (changeValue > 0) {
+            this.damageFlash = 1;
+        }
+
+        this.healthValue -= changeValue;
 
         if (this.healthValue <= 0) {
             this.healthValue = 0;
@@ -79,6 +84,20 @@ var Player = Entity.extend({
             this.velocityY = 0;
         }
 
+        if (this.damageFlash > 0) {
+            this.damageFlash--;
+        }
+
         this._super();
+    },
+
+    draw: function(ctx) {
+        if (this.damageFlash > 0) {
+            ctx.rect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
+            ctx.fillStyle = '#ff0000';
+            ctx.fill();
+        }
+
+        this._super(ctx);
     }
 });
