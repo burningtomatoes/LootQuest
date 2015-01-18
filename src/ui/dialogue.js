@@ -33,7 +33,7 @@ var Dialogue = {
 
         Game.map.resume();
         $('.dialogue').fadeOut('fast');
-        this.running = true;
+        this.running = false;
     },
 
     update: function() {
