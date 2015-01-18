@@ -28,9 +28,8 @@ var Music = {
 
     stopAll: function() {
         for (var sound in this.sounds) {
-            if (this.sounds.hasOwnProperty(sound)) {
-                sound.pause();
-            }
+            var soundObj = this.sounds[sound];
+            soundObj.pause();
         }
     }
 };
