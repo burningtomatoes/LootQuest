@@ -159,10 +159,12 @@ var Map = Class.extend({
 
     pause: function () {
         this.paused = true;
+        $('#hud').hide();
     },
 
     resume: function () {
         this.paused = false;
+        $('#hud').show();
     },
 
     add: function (e) {

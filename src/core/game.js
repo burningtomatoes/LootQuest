@@ -25,6 +25,8 @@ var Game = {
                     { text: 'Where am I?', player: true }
                 ]);
                 Dialogue.show();
+            } else {
+                this.map.resume();
             }
 
         }.bind(this);

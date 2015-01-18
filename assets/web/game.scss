@@ -65,7 +65,7 @@ canvas {
   image-rendering: pixelated;
   -ms-interpolation-mode: nearest-neighbor;
 }
-#game {
+#game, #hud {
   $width: 640px * 2;
   $height: 400px * 2;
 
@@ -76,6 +76,14 @@ canvas {
   left: 50%;
   margin-top: -($height / 2);
   margin-left: -($width / 2);
+  z-index: 100;
+}
+#hud {
+  // #hud is an exact overlay of the game canvas
+  display: none;
+  z-index: 200;
+  padding: 15px;
+  text-align: left;
 }
 
 /** Boot logo **/
@@ -93,11 +101,10 @@ canvas {
 
 /** Debug **/
 #fps {
-  position: fixed;
-  top: 0;
-  right: 0;
-  padding: 10px;
-  background: rgba(0, 0, 0, 0.5);
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: none;
 }
 
 /** Dialogue **/
@@ -136,5 +143,62 @@ canvas {
     position: absolute;
     bottom: 25px;
     right: 25px;
+  }
+}
+
+/** Heartbeat animation **/
+$heartbeat-color: #e87;
+$heartbeat-size: 36px; // must be divisible by 2 and 3
+$heartbeat-rotation: rotate(45deg);
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} { @content }
+  @-moz-keyframes #{$name} { @content }
+  @-o-keyframes #{$name} { @content }
+  @keyframes #{$name} { @content }
+}
+
+@mixin experimental($property, $value, $moz: true, $webkit: true, $o: true, $ms: true, $khtml: true, $official: true) {
+  @if $webkit   { -webkit-#{$property} : $value; }
+  @if $khtml    {  -khtml-#{$property} : $value; }
+  @if $moz      {    -moz-#{$property} : $value; }
+  @if $ms       {     -ms-#{$property} : $value; }
+  @if $o        {      -o-#{$property} : $value; }
+  @if $official {         #{$property} : $value; }
+}
+
+@mixin animation($value) {
+  @include experimental(animation, $value);
+}
+
+@mixin transform($transforms) {
+  -moz-transform: $transforms;
+  -o-transform: $transforms;
+  -ms-transform: $transforms;
+  -webkit-transform: $transforms;
+  transform: $transforms;
+}
+
+@include keyframes(heartbeat) {
+  0%  { @include transform(scale(1));   }
+  14% { @include transform(scale(1.2)); }
+  28% { @include transform(scale(1));   }
+  42% { @include transform(scale(1.2)); }
+  70% { @include transform(scale(1));   }
+}
+
+#health {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+
+  img {
+    float: left;
+    margin: 0;
+    padding: 0;
+  }
+
+  img.last:not(.empty) {
+    @include animation(heartbeat 2000ms ease 0s infinite normal);
   }
 }

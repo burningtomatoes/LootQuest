@@ -49,7 +49,7 @@ var Canvas = {
 
         if (Settings.countFps) {
             window.setInterval(function() {
-                $('#fps').text('FPS: ' + this.fps.toFixed(0));
+                $('#fps').show().text('FPS: ' + this.fps.toFixed(0));
             }.bind(this), 1000);
         }
 

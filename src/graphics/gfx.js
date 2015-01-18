@@ -18,5 +18,10 @@ var Gfx = {
 
     preload: function () {
         this.load('map_dungeon');
+
+        this.load('hero');
+        this.load('hero_shadow');
+
+        this.load('darkness');
     }
 };
