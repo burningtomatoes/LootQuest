@@ -1,8 +1,8 @@
 var Direction = {
-    UP: 0,
-    DOWN: 1,
+    UP: 1,
     LEFT: 2,
-    RIGHT: 3
+    DOWN: 3,
+    RIGHT: 4
 };
 
 var Entity = Class.extend({

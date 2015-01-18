@@ -1,5 +1,6 @@
 var Game = {
     map: null,
+    lastMapId: null,
 
     initialize: function () {
         Canvas.initialize();
@@ -21,7 +22,6 @@ var Game = {
                 }
 
                 Canvas.$canvas.delay(200).fadeIn('slow');
-                this.map.addPlayer(new Player());
 
                 if (!Settings.skipIntroDialogue) {
                     Dialogue.prepare([
@@ -32,6 +32,8 @@ var Game = {
                 } else {
                     this.map.resume();
                 }
+
+                this.lastMapId = id;
             }.bind(this));
         }.bind(this);
 

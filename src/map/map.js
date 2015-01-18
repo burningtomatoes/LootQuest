@@ -61,12 +61,15 @@ var Map = Class.extend({
     tilesPerRow: 0,
 
     processData: function() {
+        // Kill any old soundscapes from previous map loads
         Music.stopAll();
 
+        // Load & prepare the tileset for rendering
         var tilesetSrc = this.data.tilesets[0].image;
         tilesetSrc = tilesetSrc.replace('../images/', '');
         tilesetSrc = tilesetSrc.replace('.png', '');
 
+        // Configure map dimensions & data
         this.height = this.data.height;
         this.width = this.data.width;
         this.heightPx = this.height * Settings.tileSize;
@@ -75,17 +78,68 @@ var Map = Class.extend({
         this.layers = this.data.layers;
         this.tilesPerRow = this.data.tilesets[0].imagewidth / Settings.tileSize;
 
-        this.prepareBlockMap();
+        // Avoid "undefined" errors and a boat load of checks by creating boilerplate dummy objects where needed
+        if (typeof(this.data.properties) == 'undefined') {
+            this.data.properties = { };
+        }
 
-        Camera.centerToMap();
+        for (var i = 0; i < this.layers.length; i++) {
+            var layer = this.layers[i];
 
-        if (typeof(this.data.properties) != 'undefined') {
-            var props = this.data.properties;
-
-            if (props.ambience) {
-                Music.loopSound(this.data.properties.ambience);
+            if (typeof(layer.properties) == 'undefined') {
+                layer.properties = { };
             }
         }
+
+        // Calculate blocking tiles, teleports, etc
+        this.prepareBlockMap();
+
+        // Center the camera on the middle of the map to start out
+        Camera.centerToMap();
+
+        // Run ambient soundscapes
+        var props = this.data.properties;
+        if (props.ambience) {
+            Music.loopSound(this.data.properties.ambience);
+        }
+
+        // Add the player, and spawn them in the correct position
+        var player = new Player();
+        this.configureSpawn(player);
+        this.addPlayer(player);
+    },
+
+    configureSpawn: function (playerEntity) {
+        var spawnSource = 'initial';
+        if (Game.lastMapId != null) {
+            spawnSource = Game.lastMapId;
+        }
+
+        var spawnData = null;
+        var spawnKey = 'spawn_' + spawnSource;
+
+        if (typeof(this.data.properties['spawn_' + spawnSource]) != 'undefined') {
+            spawnData = this.data.properties['spawn_' + spawnSource];
+        } else if (typeof(this.data.properties['spawn_initial']) != 'undefined') {
+            spawnData = this.data.properties['spawn_initial'];
+        } else {
+            spawnData = '5, 5'; // out of options here...
+        }
+
+        var dataBits = spawnData.split(',');
+
+        var coordX = parseInt(dataBits[0]);
+        var coordY = parseInt(dataBits[1]);
+        var orientation = Direction.DOWN;
+
+        if (dataBits.length >= 3) {
+            orientation = parseInt(dataBits[2]);
+        }
+
+        console.log(orientation);
+
+        playerEntity.setCoord(coordX, coordY);
+        playerEntity.direction = orientation;
     },
 
     blockedTiles: [],
@@ -94,6 +148,8 @@ var Map = Class.extend({
 
     prepareBlockMap: function () {
         this.blockedTiles = [];
+        this.blockedRects = [];
+        this.teleRects = [];
 
         var layerCount = this.layers.length;
 

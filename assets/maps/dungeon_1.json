@@ -55,7 +55,9 @@
  "orientation":"orthogonal",
  "properties":
     {
-     "ambience":"dungeon_ambience.mp3"
+     "ambience":"dungeon_ambience.mp3",
+     "spawn_dungeon_2":"9,12,1",
+     "spawn_initial":"9,2,3"
     },
  "renderorder":"right-down",
  "tileheight":32,

@@ -13,8 +13,6 @@ var Player = Entity.extend({
         this.width = 32;
         this.height = 18;
 
-        this.setCoord(9, 2);
-
         this.sprite = Gfx.load('hero');
         this.spriteShadow = Gfx.load('hero_shadow');
 
