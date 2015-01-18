@@ -47,6 +47,30 @@ var Entity = Class.extend({
         };
     },
 
+    canMoveLeft: function() {
+        var projectedPosX = this.posX - this.movementSpeed;
+        var projectedRect = this.getRect(projectedPosX, null);
+        return !Game.map.isRectBlocked(projectedRect);
+    },
+
+    canMoveRight: function() {
+        var projectedPosX = this.posX + this.movementSpeed;
+        var projectedRect = this.getRect(projectedPosX, null);
+        return !Game.map.isRectBlocked(projectedRect);
+    },
+
+    canMoveUp: function() {
+        var projectedPosY = this.posY - this.movementSpeed;
+        var projectedRect = this.getRect(null, projectedPosY);
+        return !Game.map.isRectBlocked(projectedRect);
+    },
+
+    canMoveDown: function() {
+        var projectedPosY = this.posY + this.movementSpeed;
+        var projectedRect = this.getRect(null, projectedPosY);
+        return !Game.map.isRectBlocked(projectedRect);
+    },
+
     draw: function(ctx) {
         ctx.save();
         ctx.translate(this.posX, this.posY);
@@ -66,7 +90,6 @@ var Entity = Class.extend({
             case Direction.LEFT:
                 ctx.rotate(270 * Math.PI / 180);
                 ctx.translate(-this.width + (this.width / 4), this.height / 2);
-                //ctx.translate(-this.height / 2 , -this.width + (this.width / 4));
                 break;
         }
 
@@ -79,9 +102,35 @@ var Entity = Class.extend({
         }
 
         ctx.restore();
+
+        if (Settings.drawCollisions) {
+            var r = this.getRect();
+
+            ctx.beginPath();
+            ctx.rect(r.left, r.top, r.width, r.height);
+            ctx.strokeStyle = "#FFCCAA";
+            ctx.stroke();
+            ctx.closePath();
+        }
     },
 
     update: function() {
+        if (this.velocityX < 0 && !this.canMoveLeft()) {
+            this.velocityX = 0;
+        }
+
+        if (this.velocityX > 0 && !this.canMoveRight()) {
+            this.velocityX = 0;
+        }
+
+        if (this.velocityY < 0 && !this.canMoveUp()) {
+            this.velocityY = 0;
+        }
+
+        if (this.velocityY > 0 && !this.canMoveDown()) {
+            this.velocityY = 0;
+        }
+
         this.posX += this.velocityX;
         this.posY += this.velocityY;
 
@@ -97,5 +146,30 @@ var Entity = Class.extend({
         } else {
             this.headBob = 0;
         }
+    },
+
+    getRect: function(overrideX, overrideY) {
+        var x = this.posX;
+        var y = this.posY;
+
+        if (overrideX != null) {
+            x = overrideX;
+        }
+
+        if (overrideY != null) {
+            y = overrideY;
+        }
+
+        var margin = 6;
+        var rect = {
+            left: x + (margin/2),
+            top: y + (margin/2),
+            height: this.height - margin,
+            width: this.width - margin
+        };
+        rect.bottom = rect.top + rect.height;
+        rect.right = rect.left + rect.width;
+        // TODO Specific collision masks for left/right directions?
+        return rect;
     }
 });

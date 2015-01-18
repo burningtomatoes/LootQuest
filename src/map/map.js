@@ -75,6 +75,7 @@ var Map = Class.extend({
     },
 
     blockedTiles: [],
+    blockedRects: [],
 
     prepareBlockMap: function () {
         this.blockedTiles = [];
@@ -111,17 +112,40 @@ var Map = Class.extend({
 
                 this.blockedTiles.push(x);
                 this.blockedTiles.push(y);
+
+                var rect = {
+                    top: y * Settings.tileSize,
+                    left: x * Settings.tileSize,
+                    width: Settings.tileSize,
+                    height: Settings.tileSize
+                };
+                rect.bottom = rect.top + rect.height;
+                rect.right = rect.left + rect.width;
+
+                this.blockedRects.push(rect);
             }
         }
     },
 
     isCoordBlocked: function (x, y) {
         // Every even index contains X coord, odd index contains Y coord
-        for (var i = 0; i < this.blockedTiles.length; i += 2) {
+        var blockedTilesLength = this.blockedTiles.length;
+        for (var i = 0; i < blockedTilesLength; i += 2) {
             var x2 = this.blockedTiles[i];
             var y2 = this.blockedTiles[i + 1];
 
             if (x == x2 && y == y2) {
+                return true;
+            }
+        }
+
+        return false;
+    },
+
+    isRectBlocked: function(rect) {
+        var blockedRectsLength = this.blockedRects.length;
+        for (var i = 0; i < blockedRectsLength; i++) {
+            if (Utils.rectIntersects(rect, this.blockedRects[i])) {
                 return true;
             }
         }
