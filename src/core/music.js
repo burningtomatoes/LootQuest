@@ -3,7 +3,7 @@ var Music = {
 
     prepareSound: function(filename) {
         if (typeof(this.sounds[filename]) == 'undefined') {
-            this.sounds[filename] = new Audio('assets/music/' + filename);
+            this.sounds[filename] = new Audio('assets/audio/' + filename);
         }
 
         return this.sounds[filename];
@@ -24,5 +24,13 @@ var Music = {
     stopSound: function(filename) {
         var sound = this.prepareSound(filename);
         sound.pause();
+    },
+
+    stopAll: function() {
+        for (var sound in this.sounds) {
+            if (this.sounds.hasOwnProperty(sound)) {
+                sound.pause();
+            }
+        }
     }
 };

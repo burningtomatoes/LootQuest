@@ -2,7 +2,7 @@ var Settings = {
     tileSize: 32,
 
     countFps: true,
-    skipBootLogo: true,
-    skipIntroDialogue: true,
-    drawCollisions: true
+    skipBootLogo: false,
+    skipIntroDialogue: false,
+    drawCollisions: false
 };

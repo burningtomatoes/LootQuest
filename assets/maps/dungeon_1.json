@@ -40,7 +40,7 @@
  "orientation":"orthogonal",
  "properties":
     {
-
+     "ambience":"dungeon_ambience.mp3"
     },
  "renderorder":"right-down",
  "tileheight":32,

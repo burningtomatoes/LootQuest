@@ -59,6 +59,8 @@ var Map = Class.extend({
     tilesPerRow: 0,
 
     processData: function() {
+        Music.stopAll();
+
         var tilesetSrc = this.data.tilesets[0].image;
         tilesetSrc = tilesetSrc.replace('../images/', '');
         tilesetSrc = tilesetSrc.replace('.png', '');
@@ -74,6 +76,14 @@ var Map = Class.extend({
         this.prepareBlockMap();
 
         Camera.centerToMap();
+
+        if (typeof(this.data.properties) != 'undefined') {
+            var props = this.data.properties;
+
+            if (props.ambience) {
+                Music.loopSound(this.data.properties.ambience);
+            }
+        }
     },
 
     blockedTiles: [],
