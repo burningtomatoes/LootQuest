@@ -21,18 +21,7 @@ var Game = {
                     return;
                 }
 
-                Canvas.$canvas.delay(200).fadeIn('slow');
-
-                if (!Settings.skipIntroDialogue) {
-                    Dialogue.prepare([
-                        { text: 'What..what is this?', player: true },
-                        { text: 'Where am I?', player: true }
-                    ]);
-                    Dialogue.show();
-                } else {
-                    this.map.resume();
-                }
-
+                Canvas.$canvas.delay(200).fadeIn(this.lastMapId == null ? 2000 : 'fast');
                 this.lastMapId = id;
             }.bind(this));
         }.bind(this);

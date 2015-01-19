@@ -1,4 +1,6 @@
 var Goblin = Entity.extend({
+    isNpc: true,
+
     init: function() {
         this._super();
 

@@ -5,6 +5,8 @@ var Player = Entity.extend({
     teleportTo: null,
     teleportTimer: 0,
 
+    isPlayer: true,
+
     init: function() {
         this._super();
 

@@ -60,6 +60,8 @@ var Map = Class.extend({
     widthPx: 0,
     tilesPerRow: 0,
 
+    mapScript: null,
+
     processData: function() {
         // Load & prepare the tileset for rendering
         var tilesetSrc = this.data.tilesets[0].image;
@@ -109,6 +111,12 @@ var Map = Class.extend({
         if (props.ambience) {
             Music.loopSound(this.data.properties.ambience);
         }
+
+        // Map script
+        if (this.data.properties.script != null) {
+            this.mapScript = new window.mapScripts[this.data.properties.script]();
+            this.mapScript.run();
+        }
     },
 
     configurePlayerSpawn: function (playerEntity) {
@@ -145,6 +153,8 @@ var Map = Class.extend({
     blockedTiles: [],
     blockedRects: [],
     teleRects: [],
+    npcBlockedTiles: [],
+    npcBlockedRects: [],
 
     prepareMapSpawns: function() {
         var layerCount = this.layers.length;
@@ -198,6 +208,8 @@ var Map = Class.extend({
         this.blockedTiles = [];
         this.blockedRects = [];
         this.teleRects = [];
+        this.npcBlockedRects = [];
+        this.npcBlockedTiles = [];
 
         var layerCount = this.layers.length;
 
@@ -208,8 +220,9 @@ var Map = Class.extend({
             var x = -1;
             var y = 0;
 
-            var isBlocking = typeof(layer.properties) != 'undefined' && layer.properties.blocked == '1';
-            var isTeleportingTo = typeof(layer.properties) != 'undefined' && layer.properties.teleport != null ? layer.properties.teleport : null;
+            var isBlocking = layer.properties.blocked == '1';
+            var isNpcBlocking =  layer.properties.npc_block == '1';
+            var isTeleportingTo = layer.properties.teleport != null ? layer.properties.teleport : null;
 
             for (var tileIdx = 0; tileIdx < layerDataLength; tileIdx++) {
                 var tid = layer.data[tileIdx];
@@ -241,6 +254,12 @@ var Map = Class.extend({
                     this.blockedRects.push(rect);
                 }
 
+                if (isNpcBlocking) {
+                    this.npcBlockedTiles.push(x);
+                    this.npcBlockedTiles.push(y);
+                    this.npcBlockedRects.push(rect);
+                }
+
                 if (isTeleportingTo != null) {
                     rect.teleportTo = isTeleportingTo;
                     this.teleRects.push(rect);
@@ -264,12 +283,22 @@ var Map = Class.extend({
         return false;
     },
 
-    isRectBlocked: function(rect) {
+    isRectBlocked: function(rect, isNpc) {
         var blockedRectsLength = this.blockedRects.length;
 
         for (var i = 0; i < blockedRectsLength; i++) {
             if (Utils.rectIntersects(rect, this.blockedRects[i])) {
                 return true;
+            }
+        }
+
+        if (isNpc) {
+            var npcBlockedRectsLength = this.npcBlockedRects.length;
+
+            for (var j = 0; j < npcBlockedRectsLength; j++) {
+                if (Utils.rectIntersects(rect, this.npcBlockedRects[j])) {
+                    return true;
+                }
             }
         }
 
@@ -395,8 +424,16 @@ var Map = Class.extend({
         var entityCount = this.entities.length;
 
         for (var i = 0; i < entityCount; i++) {
-            this.entities[i].draw(ctx);
+            var e = this.entities[i];
+
+            if (e == this.player) {
+                continue;
+            }
+
+            e.draw(ctx);
         }
+
+        this.player.draw(ctx);
     },
 
     update: function () {

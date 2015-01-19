@@ -74,25 +74,25 @@ var Entity = Class.extend({
     canMoveLeft: function() {
         var projectedPosX = this.posX - this.movementSpeed;
         var projectedRect = this.getRect(projectedPosX, null);
-        return !Game.map.isRectBlocked(projectedRect);
+        return !Game.map.isRectBlocked(projectedRect, this.isNpc);
     },
 
     canMoveRight: function() {
         var projectedPosX = this.posX + this.movementSpeed;
         var projectedRect = this.getRect(projectedPosX, null);
-        return !Game.map.isRectBlocked(projectedRect);
+        return !Game.map.isRectBlocked(projectedRect, this.isNpc);
     },
 
     canMoveUp: function() {
         var projectedPosY = this.posY - this.movementSpeed;
         var projectedRect = this.getRect(null, projectedPosY);
-        return !Game.map.isRectBlocked(projectedRect);
+        return !Game.map.isRectBlocked(projectedRect, this.isNpc);
     },
 
     canMoveDown: function() {
         var projectedPosY = this.posY + this.movementSpeed;
         var projectedRect = this.getRect(null, projectedPosY);
-        return !Game.map.isRectBlocked(projectedRect);
+        return !Game.map.isRectBlocked(projectedRect, this.isNpc);
     },
 
     draw: function(ctx) {
