@@ -47,6 +47,10 @@ var Player = Entity.extend({
     },
 
     damage: function (changeValue) {
+        if (this.isTeleporting) {
+            return;
+        }
+
         if (changeValue > 0 && !this.dead) {
             this.damageFlash = 1;
         }
@@ -57,7 +61,10 @@ var Player = Entity.extend({
     },
 
     update: function() {
+        var ourRect = this.getRect();
+
         if (!this.isTeleporting && !this.dead) {
+            // Movement input ///
             if (Keyboard.isKeyDown(KeyEvent.DOM_VK_LEFT) || Keyboard.isKeyDown(KeyEvent.DOM_VK_A)) {
                 this.velocityX = -this.movementSpeed;
                 this.direction = Direction.LEFT;
@@ -67,7 +74,6 @@ var Player = Entity.extend({
             } else {
                 this.velocityX = 0;
             }
-
             if (Keyboard.isKeyDown(KeyEvent.DOM_VK_UP) || Keyboard.isKeyDown(KeyEvent.DOM_VK_W)) {
                 this.velocityY = -this.movementSpeed;
                 this.direction = Direction.UP;
@@ -78,9 +84,32 @@ var Player = Entity.extend({
                 this.velocityY = 0;
             }
 
+            // Red damage flash timer //
             if (this.damageFlash > 0) {
                 this.damageFlash--;
             }
+
+            // Entity collision (get hurt when you toch an enemy) //
+            if (this.hurtTimer == 0) {
+                var entities = Game.map.entities;
+                var entitiesLength = entities.length;
+
+                for (var i = 0; i < entitiesLength; i++) {
+                    var entity = entities[i];
+
+                    if (!entity.isNpc) {
+                        continue;
+                    }
+
+                    var theirRect = entity.getRect();
+
+                    if (Utils.rectIntersects(theirRect, ourRect)) {
+                        this.damage(1);
+                    }
+                }
+            }
+
+
         }
 
         if (this.dead) {
