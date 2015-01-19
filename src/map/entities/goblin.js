@@ -13,6 +13,8 @@ var Goblin = Entity.extend({
         this.setCoord(9, 9);
 
         this.weapon = new SwordTroll();
+
+        this.generateHurtSprite();
     },
 
     moveDirection: 0,

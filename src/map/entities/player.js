@@ -21,6 +21,8 @@ var Player = Entity.extend({
         this.syncHealthUi();
 
         this.weapon = new SwordBasic();
+
+        this.generateHurtSprite();
     },
 
     syncHealthUi: function() {

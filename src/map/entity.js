@@ -14,6 +14,7 @@ var Entity = Class.extend({
 
     sprite: null,
     spriteShadow: null,
+    spriteHurt: null,
 
     velocityX: 0,
     velocityY: 0,
@@ -31,15 +32,39 @@ var Entity = Class.extend({
     healthCapacity: 12,
     dead: false,
 
+    hurtTimer: 0,
+
     init: function() {
         this.width = 32;
         this.height = 32;
         this.direction = Direction.DOWN;
     },
 
+    generateHurtSprite: function () {
+        this.spriteHurt = this.sprite;
+
+        var mkSprite = function () {
+            this.spriteHurt = Gfx.makeHurtSprite(this.sprite);
+        }.bind(this);
+
+        this.sprite.onload = mkSprite;
+
+        if (this.sprite.complete) {
+            mkSprite();
+        }
+    },
+
     damage: function (changeValue) {
         if (this.dead) {
             return;
+        }
+
+        if (changeValue > 0) {
+            // Damage dealt
+            this.hurtTimer = 1;
+        } else if (changeValue < 0) {
+            // Health added
+            this.hurtTimer = 0;
         }
 
         this.healthValue -= changeValue;
@@ -125,7 +150,7 @@ var Entity = Class.extend({
         }
 
         if (this.sprite != null) {
-            ctx.drawImage(this.sprite, 0, 0, this.width, this.height, this.headBob, 0, this.width, this.height);
+            ctx.drawImage(this.hurtTimer > 0 ? this.spriteHurt : this.sprite, 0, 0, this.width, this.height, this.headBob, 0, this.width, this.height);
         }
 
         ctx.restore();
@@ -180,6 +205,10 @@ var Entity = Class.extend({
 
         if (this.weapon != null) {
             this.weapon.update(this);
+        }
+
+        if (this.hurtTimer > 0) {
+            this.hurtTimer--;
         }
     },
 
