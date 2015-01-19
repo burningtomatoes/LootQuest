@@ -125,6 +125,9 @@ var Map = Class.extend({
             spawnSource = Game.lastMapId;
         }
 
+
+        console.log('spawn source', spawnSource);
+
         var spawnData = null;
         var spawnKey = 'spawn_' + spawnSource;
 
@@ -148,6 +151,14 @@ var Map = Class.extend({
 
         playerEntity.setCoord(coordX, coordY);
         playerEntity.direction = orientation;
+    },
+
+    redeploy: function() {
+        this.remove(this.player);
+
+        var player = new Player();
+        this.configurePlayerSpawn(player);
+        this.addPlayer(player);
     },
 
     blockedTiles: [],

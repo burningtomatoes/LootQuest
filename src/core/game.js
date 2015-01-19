@@ -1,5 +1,6 @@
 var Game = {
     map: null,
+    maps: [],
     lastMapId: null,
 
     initialize: function () {
@@ -9,21 +10,36 @@ var Game = {
 
     start: function () {
         Canvas.$canvas.hide();
+
+        this.maps = [];
+        this.lastMapId = null;
+
         this.loadMap('dungeon_1');
     },
 
     loadMap: function (id) {
-        var execLoad = function() {
-            this.map = new Map();
-            this.map.load(id, function (okay) {
-                if (!okay) {
-                    alert('Something went wrong, could not load the next part of the game. Sorry... we let you down.');
-                    return;
-                }
+        var mapReady = function () {
+            Canvas.$canvas.delay(200).fadeIn(this.lastMapId == null ? 2000 : 'fast');
+            this.lastMapId = id;
+        }.bind(this);
 
-                Canvas.$canvas.delay(200).fadeIn(this.lastMapId == null ? 2000 : 'fast');
-                this.lastMapId = id;
-            }.bind(this));
+        var execLoad = function() {
+            if (typeof this.maps[id] == 'undefined') {
+                this.map = new Map();
+                this.maps[id] = this.map;
+                this.map.load(id, function (okay) {
+                    if (!okay) {
+                        alert('Something went wrong, could not load the next part of the game. Sorry... we let you down.');
+                        return;
+                    }
+
+                    mapReady();
+                }.bind(this));
+            } else {
+                this.map = this.maps[id];
+                this.map.redeploy();
+                mapReady();
+            }
         }.bind(this);
 
         if (!Canvas.$canvas.is(':visible')) {
