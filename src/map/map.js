@@ -61,9 +61,6 @@ var Map = Class.extend({
     tilesPerRow: 0,
 
     processData: function() {
-        // Kill any old soundscapes from previous map loads
-        Music.stopAll();
-
         // Load & prepare the tileset for rendering
         var tilesetSrc = this.data.tilesets[0].image;
         tilesetSrc = tilesetSrc.replace('../images/', '');
@@ -97,21 +94,24 @@ var Map = Class.extend({
         // Center the camera on the middle of the map to start out
         Camera.centerToMap();
 
+        // Add the player, and spawn them in the correct position
+        var player = new Player();
+        this.configurePlayerSpawn(player);
+        this.addPlayer(player);
+
+        // Spawns (NPCs) as defined in the map data
+        this.prepareMapSpawns();
+
         // Run ambient soundscapes
+        Music.stopAll();
+
         var props = this.data.properties;
         if (props.ambience) {
             Music.loopSound(this.data.properties.ambience);
         }
-
-        // Add the player, and spawn them in the correct position
-        var player = new Player();
-        this.configureSpawn(player);
-        this.addPlayer(player);
-
-        this.add(new Goblin());
     },
 
-    configureSpawn: function (playerEntity) {
+    configurePlayerSpawn: function (playerEntity) {
         var spawnSource = 'initial';
         if (Game.lastMapId != null) {
             spawnSource = Game.lastMapId;
@@ -145,6 +145,54 @@ var Map = Class.extend({
     blockedTiles: [],
     blockedRects: [],
     teleRects: [],
+
+    prepareMapSpawns: function() {
+        var layerCount = this.layers.length;
+
+        var x = -1;
+        var y = 0;
+
+        for (var i = 0; i < layerCount; i++) {
+            var layer = this.layers[i];
+            var spawnId = layer.properties.spawn;
+
+            if (spawnId == null) {
+                continue;
+            }
+
+            var layerDataLength = layer.data.length;
+
+            for (var tileIdx = 0; tileIdx < layerDataLength; tileIdx++) {
+                var tid = layer.data[tileIdx];
+
+                x++;
+
+                if (x >= this.width) {
+                    y++;
+                    x = 0;
+                }
+
+                if (tid === 0) {
+                    // Invisible (no tile set for this position)
+                    continue;
+                }
+
+                var entity = null;
+
+                // noinspection FallThroughInSwitchStatementJS
+                switch (spawnId) {
+                    default:
+                        console.warn('[Entity] Unknown spawn type, have a Goblin instead:', spawnId);
+                    case 'goblin':
+                        entity = new Goblin();
+                        break;
+                }
+
+                entity.setCoord(x, y);
+                this.add(entity);
+            }
+        }
+    },
 
     prepareBlockMap: function () {
         this.blockedTiles = [];
