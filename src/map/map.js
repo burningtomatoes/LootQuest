@@ -114,8 +114,10 @@ var Map = Class.extend({
 
         // Map script
         if (this.data.properties.script != null) {
-            this.mapScript = new window.mapScripts[this.data.properties.script]();
+            this.mapScript = new window.mapScripts[this.data.properties.script](this);
             this.mapScript.run();
+        } else {
+            this.mapScript = new MapScript(this); // dummy
         }
     },
 
@@ -124,9 +126,6 @@ var Map = Class.extend({
         if (Game.lastMapId != null) {
             spawnSource = Game.lastMapId;
         }
-
-
-        console.log('spawn source', spawnSource);
 
         var spawnData = null;
         var spawnKey = 'spawn_' + spawnSource;
@@ -159,6 +158,8 @@ var Map = Class.extend({
         var player = new Player();
         this.configurePlayerSpawn(player);
         this.addPlayer(player);
+
+        this.mapScript.redeploy();
     },
 
     blockedTiles: [],

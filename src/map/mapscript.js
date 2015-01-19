@@ -8,11 +8,26 @@ window.mapScripts = [];
 var MapScript = Class.extend({
     map: null,
 
-    init: function(map) {
+    /**
+     * Initializes a new MapScript object for a specific map.
+     *
+     * @param map
+     */
+    init: function (map) {
         this.map = map;
     },
 
-    run: function() {
+    /**
+     * Called when the map is first loaded (loaded from network, 1st time).
+     */
+    run: function () {
+        // ...
+    },
+
+    /**
+     * Called when the map is redeployed (loaded from memory, 2nd time and any later load).
+     */
+    redeploy: function () {
         // ...
     }
 });
