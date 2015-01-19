@@ -19,6 +19,8 @@ var Player = Entity.extend({
         this.healthCapacity = 12;
         this.healthValue = this.healthCapacity;
         this.syncHealthUi();
+
+        this.weapon = new SwordBasic();
     },
 
     syncHealthUi: function() {

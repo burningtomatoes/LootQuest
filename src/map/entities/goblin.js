@@ -11,6 +11,8 @@ var Goblin = Entity.extend({
         this.spriteShadow = Gfx.load('hero_shadow');
 
         this.setCoord(9, 9);
+
+        this.weapon = new SwordTroll();
     },
 
     moveDirection: 0,

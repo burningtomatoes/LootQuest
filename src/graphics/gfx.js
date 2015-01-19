@@ -26,5 +26,6 @@ var Gfx = {
         this.load('darkness');
 
         this.load('sword_basic');
+        this.load('sword_troll');
     }
 };

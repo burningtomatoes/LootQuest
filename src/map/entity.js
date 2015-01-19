@@ -35,7 +35,6 @@ var Entity = Class.extend({
         this.width = 32;
         this.height = 32;
         this.direction = Direction.DOWN;
-        this.weapon = new Weapon();
     },
 
     damage: function (changeValue) {
