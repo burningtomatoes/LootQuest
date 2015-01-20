@@ -11,11 +11,15 @@ window.mapScripts['troll_intro_room'] = MapScript.extend({
 
         Camera.followEntity(this.evilTroll);
 
-        Dialogue.prepare([
-            { text: 'Who dares enter my lair!?', evil: true },
-            { text: 'Begone with you!', evil: true }
-        ], this.afterIntro.bind(this));
-        Dialogue.show();
+        if (!Settings.skipIntroDialogue) {
+            Dialogue.prepare([
+                {text: 'Who dares enter my lair!?', evil: true},
+                {text: 'Begone with you!', evil: true}
+            ], this.afterIntro.bind(this));
+            Dialogue.show();
+        } else {
+            this.afterIntro();
+        }
     },
 
     afterIntro: function() {
