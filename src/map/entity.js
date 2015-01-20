@@ -82,6 +82,7 @@ var Entity = Class.extend({
 
     die: function () {
         this.dead = true;
+        this.weapon = null;
     },
 
     setPos: function (x, y) {
