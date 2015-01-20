@@ -6,6 +6,7 @@ var Sfx = {
         this.load('dialogue_tick.wav');
         this.load('player_hurt.wav');
         this.load('enemy_hurt.wav');
+        this.load('cinboom.wav');
     },
 
     load: function(fileName) {

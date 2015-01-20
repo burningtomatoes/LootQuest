@@ -63,6 +63,19 @@ var Player = Entity.extend({
         this.syncHealthUi();
     },
 
+    die: function() {
+        if (this.dead) {
+            return;
+        }
+
+        this._super();
+
+        this.damageFlash = Infinity;
+
+        Sfx.play('cinboom.wav');
+        Game.reset();
+    },
+
     update: function() {
         var ourRect = this.getRect();
 

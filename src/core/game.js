@@ -17,6 +17,38 @@ var Game = {
         this.loadMap('dungeon_1');
     },
 
+    resetting: false,
+
+    reset: function (callback) {
+        if (callback == null) {
+            callback = function() { };
+        }
+
+        if (this.resetting) {
+            return;
+        }
+
+        this.resetting = true;
+
+        Dialogue.hide();
+        $('#hud').hide();
+
+        if (this.map != null) {
+            this.map.pause();
+        }
+
+        var completeReset = function() {
+            this.map = null;
+            this.start();
+            this.resetting = false;
+        }.bind(this);
+
+        Canvas.$canvas.fadeOut(3000, function() {
+            Music.stopAll();
+            window.setTimeout(completeReset, 1000);
+        });
+    },
+
     loadMap: function (id) {
         var mapReady = function () {
             Canvas.$canvas.delay(200).fadeIn(this.lastMapId == null ? 2000 : 'fast');
