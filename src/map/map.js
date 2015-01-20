@@ -295,11 +295,11 @@ var Map = Class.extend({
         return false;
     },
 
-    isRectBlocked: function(rect, isNpc) {
+    isRectBlocked: function(ourRect, isNpc, ignoreEntity) {
         var blockedRectsLength = this.blockedRects.length;
 
         for (var i = 0; i < blockedRectsLength; i++) {
-            if (Utils.rectIntersects(rect, this.blockedRects[i])) {
+            if (Utils.rectIntersects(ourRect, this.blockedRects[i])) {
                 return true;
             }
         }
@@ -308,9 +308,29 @@ var Map = Class.extend({
             var npcBlockedRectsLength = this.npcBlockedRects.length;
 
             for (var j = 0; j < npcBlockedRectsLength; j++) {
-                if (Utils.rectIntersects(rect, this.npcBlockedRects[j])) {
+                if (Utils.rectIntersects(ourRect, this.npcBlockedRects[j])) {
                     return true;
                 }
+            }
+        }
+
+        var entitiesLength = this.entities.length;
+        for (var k = 0; k < entitiesLength; k++) {
+            var entity = this.entities[k];
+
+            if (!entity.causesCollision || entity === ignoreEntity || entity.causesDamage) {
+                // If the entity does not collide...
+                // or, if the entity is our ignore entity (e.g. the player checking)...
+                // or, if the entity causes damage on touch (so not really solid, just causes bounceback)...
+                // ...then we do not consider this entity for our collision detection.
+                continue;
+            }
+
+            var theirRect = entity.getRect();
+
+            if (Utils.rectIntersects(ourRect, theirRect)) {
+                console.log('intersecting', ignoreEntity, entity);
+                return true;
             }
         }
 

@@ -7,6 +7,7 @@ var Sfx = {
         this.load('player_hurt.wav');
         this.load('enemy_hurt.wav');
         this.load('cinboom.wav');
+        this.load('sword_attack.wav');
     },
 
     load: function(fileName) {

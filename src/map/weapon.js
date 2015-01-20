@@ -1,5 +1,7 @@
 var Weapon = Class.extend({
     damage: 1,
+    attackRadius: 13,
+
     image: null,
     width: 12,
     height: 18,
@@ -9,6 +11,10 @@ var Weapon = Class.extend({
     init: function () {
         this.damage = 1;
         this.image = Gfx.load('sword_basic');
+    },
+
+    playSfx: function() {
+        Sfx.play('sword_attack.wav');
     },
 
     update: function (entity) {

@@ -9,6 +9,8 @@ var Player = Entity.extend({
 
     touchPainTimer: 0,
 
+    causesDamage: false,
+
     init: function() {
         this._super();
 
@@ -79,7 +81,7 @@ var Player = Entity.extend({
     update: function() {
         var ourRect = this.getRect();
 
-        if (!this.isTeleporting && !this.dead) {
+        if (!this.isTeleporting && !this.dead && !this.isAttacking) {
             // Movement input ///
             if (Keyboard.isKeyDown(KeyEvent.DOM_VK_LEFT) || Keyboard.isKeyDown(KeyEvent.DOM_VK_A)) {
                 this.velocityX = -this.movementSpeed;
@@ -100,6 +102,11 @@ var Player = Entity.extend({
                 this.velocityY = 0;
             }
 
+            // Attack input //
+            if (Keyboard.wasKeyPressed(KeyEvent.DOM_VK_SPACE)) {
+                this.attack();
+            }
+
             // Red damage flash timer //
             if (this.damageFlash > 0) {
                 this.damageFlash--;
@@ -113,7 +120,7 @@ var Player = Entity.extend({
                 for (var i = 0; i < entitiesLength; i++) {
                     var entity = entities[i];
 
-                    if (!entity.isNpc) {
+                    if (!entity.isNpc || !entity.causesDamage) {
                         continue;
                     }
 

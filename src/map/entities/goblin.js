@@ -1,5 +1,6 @@
 var Goblin = Entity.extend({
     isNpc: true,
+    causesDamage: true,
 
     init: function() {
         this._super();
