@@ -7,6 +7,8 @@ var Player = Entity.extend({
 
     isPlayer: true,
 
+    touchPainTimer: 0,
+
     init: function() {
         this._super();
 
@@ -53,6 +55,7 @@ var Player = Entity.extend({
 
         if (changeValue > 0 && !this.dead) {
             this.damageFlash = 1;
+            Sfx.play('player_hurt.wav');
         }
 
         this._super(changeValue);
@@ -90,7 +93,7 @@ var Player = Entity.extend({
             }
 
             // Entity collision (get hurt when you toch an enemy) //
-            if (this.hurtTimer == 0) {
+            if (this.hurtTimer <= 0 && this.touchPainTimer <= 0) {
                 var entities = Game.map.entities;
                 var entitiesLength = entities.length;
 
@@ -105,11 +108,19 @@ var Player = Entity.extend({
 
                     if (Utils.rectIntersects(theirRect, ourRect)) {
                         this.damage(1);
+                        this.touchPainTimer = 30;
+
+                        // Need to increment the pain timer because otherwise it would never render
+                        // (this code is above the entity update call, so it would be instantly brought to zero)
+                        this.hurtTimer++;
+
+                        break;
                     }
                 }
             }
-
-
+            else if (this.touchPainTimer > 0) {
+                this.touchPainTimer--;
+            }
         }
 
         if (this.dead) {

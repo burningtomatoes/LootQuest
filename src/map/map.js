@@ -445,7 +445,9 @@ var Map = Class.extend({
             e.draw(ctx);
         }
 
-        this.player.draw(ctx);
+        if (this.player != null) {
+            this.player.draw(ctx);
+        }
     },
 
     update: function () {
