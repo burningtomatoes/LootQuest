@@ -60,5 +60,8 @@ var Gfx = {
 
         this.load('sword_basic');
         this.load('sword_troll');
+
+        this.load('chest_open');
+        this.load('chest_closed');
     }
 };
