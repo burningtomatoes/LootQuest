@@ -6,14 +6,20 @@ var Dialogue = {
     currentTickerIdx: 0,
     typeDelay: 0,
     fastMode: false,
+    dialogueCallback: null,
 
-    prepare: function(data) {
+    prepare: function(data, callback) {
         this.pages = data;
         this.currentPage = data[0];
         this.currentPageIdx = 0;
         this.currentTickerIdx = 0;
         this.typeDelay = 30;
         this.fastMode = false;
+        this.dialogueCallback = callback;
+
+        if (this.dialogueCallback == null) {
+            this.dialogueCallback = function() { };
+        }
     },
 
     show: function() {
@@ -34,6 +40,7 @@ var Dialogue = {
         Game.map.resume();
         $('.dialogue').fadeOut('fast');
         this.running = false;
+        this.dialogueCallback();
     },
 
     update: function() {
@@ -65,6 +72,9 @@ var Dialogue = {
 
                 if (this.currentPage.player) {
                     $dialogue.css('color', '#5882FA');
+                    $dialogue.css('text-align', 'center');
+                } else if (this.currentPage.evil) {
+                    $dialogue.css('color', '#DF0101');
                     $dialogue.css('text-align', 'center');
                 } else {
                     $dialogue.css('color', '#fff');
