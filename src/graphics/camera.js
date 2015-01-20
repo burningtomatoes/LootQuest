@@ -9,11 +9,11 @@ var Camera = {
     xLocked: false,
 
     translateX: function(x) {
-        return x + this.applyX;
+        return Math.round(x + this.applyX);
     },
 
     translateY: function(y) {
-        return y + this.applyY;
+        return Math.round(y + this.applyY);
     },
 
     translate: function(x, y) {
