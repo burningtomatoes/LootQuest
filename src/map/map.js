@@ -208,6 +208,12 @@ var Map = Class.extend({
                     case 'goblin':
                         entity = new Goblin();
                         break;
+                    case 'pot':
+                        entity = new Pot();
+                        break;
+                    case 'chest':
+                        entity = new Chest();
+                        break;
                 }
 
                 entity.setCoord(x, y);

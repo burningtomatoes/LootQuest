@@ -10,6 +10,7 @@ var Sfx = {
         this.load('sword_attack.wav');
         this.load('damage_chest.wav');
         this.load('goblin_death.wav');
+        this.load('break_pot.wav');
     },
 
     load: function(fileName) {
