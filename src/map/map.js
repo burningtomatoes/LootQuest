@@ -329,12 +329,32 @@ var Map = Class.extend({
             var theirRect = entity.getRect();
 
             if (Utils.rectIntersects(ourRect, theirRect)) {
-                console.log('intersecting', ignoreEntity, entity);
                 return true;
             }
         }
 
         return false;
+    },
+
+    getEntitiesInRect: function(ourRect, ignoreEntity) {
+        var entitiesMatched = [];
+
+        var entitiesLength = this.entities.length;
+        for (var k = 0; k < entitiesLength; k++) {
+            var entity = this.entities[k];
+
+            if (entity === ignoreEntity) {
+                continue;
+            }
+
+            var theirRect = entity.getRect();
+
+            if (Utils.rectIntersects(ourRect, theirRect)) {
+                entitiesMatched.push(entity);
+            }
+        }
+
+        return entitiesMatched;
     },
 
     getTeleport: function(rect) {

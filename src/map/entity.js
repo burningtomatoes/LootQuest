@@ -71,6 +71,7 @@ var Entity = Class.extend({
             this.hurtTimer = 0;
         }
 
+        this.drewHurtFrame = false;
         this.healthValue -= changeValue;
 
         if (this.healthValue <= 0) {
@@ -134,7 +135,22 @@ var Entity = Class.extend({
         this.isAttacking = true;
         this.attackTimer = 10;
         this.weapon.playSfx();
+
+        var attackRect = this.getAttackRadius();
+        var entitiesAffected = Game.map.getEntitiesInRect(attackRect, this);
+
+        for (var i = 0; i < entitiesAffected.length; i++) {
+            var entity = entitiesAffected[i];
+
+            if (!entity.receivesDamage || entity.dead) {
+                continue;
+            }
+
+            entity.damage(this.weapon.damage);
+        }
     },
+
+    drewHurtFrame: false,
 
     draw: function (ctx) {
         ctx.save();
@@ -168,6 +184,10 @@ var Entity = Class.extend({
 
         if (this.sprite != null) {
             ctx.drawImage(this.hurtTimer > 0 ? this.spriteHurt : this.sprite, 0, 0, this.width, this.height, this.headBob, 0, this.width, this.height);
+
+            if (!this.drewHurtFrame && this.hurtTimer > 0) {
+                this.drewHurtFrame = true;
+            }
         }
 
         ctx.restore();
@@ -194,6 +214,10 @@ var Entity = Class.extend({
     },
 
     update: function () {
+        if (this.hurtTimer > 0 && this.drewHurtFrame) {
+            this.hurtTimer--;
+        }
+
         if (this.dead) {
             return;
         }
@@ -243,10 +267,6 @@ var Entity = Class.extend({
             }
         } else {
             this.isAttacking = false;
-        }
-
-        if (this.hurtTimer > 0) {
-            this.hurtTimer--;
         }
     },
 

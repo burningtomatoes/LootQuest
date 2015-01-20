@@ -120,7 +120,7 @@ var Player = Entity.extend({
                 for (var i = 0; i < entitiesLength; i++) {
                     var entity = entities[i];
 
-                    if (!entity.isNpc || !entity.causesDamage) {
+                    if (!entity.isNpc || !entity.causesDamage || entity.dead) {
                         continue;
                     }
 
