@@ -90,7 +90,8 @@ var Entity = Class.extend({
     },
 
     setCoord: function (x, y) {
-        this.setPos(x * Settings.tileSize, y * Settings.tileSize);
+        this.posX = (Settings.tileSize * x) + ((Settings.tileSize / 2) - (this.width / 2));
+        this.posY = (Settings.tileSize * y) + ((Settings.tileSize / 2) - (this.height / 2));
     },
 
     getPos: function () {
