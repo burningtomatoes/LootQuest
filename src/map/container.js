@@ -18,6 +18,10 @@ var Container = Entity.extend({
         this.spriteShadow = null;
     },
 
+    sfxHurt: function () {
+        Sfx.play('damage_chest.wav');
+    },
+
     die: function () {
         if (this.dead) {
             return;
@@ -25,6 +29,7 @@ var Container = Entity.extend({
 
         this.dead = true;
         this.sprite = this.spriteDestroyed;
+        this.sfxHurt();
     },
 
     open: function () {

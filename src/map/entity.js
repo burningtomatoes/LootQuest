@@ -77,12 +77,23 @@ var Entity = Class.extend({
         if (this.healthValue <= 0) {
             this.healthValue = 0;
             this.die();
+        } else if (changeValue > 0) {
+            this.sfxHurt();
         }
     },
 
     die: function () {
         this.dead = true;
         this.weapon = null;
+        this.sfxDie();
+    },
+
+    sfxHurt: function () {
+        Sfx.play('enemy_hurt.wav');
+    },
+
+    sfxDie: function () {
+        Sfx.play('goblin_death.wav');
     },
 
     setPos: function (x, y) {

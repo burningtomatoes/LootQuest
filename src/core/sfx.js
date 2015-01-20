@@ -8,6 +8,8 @@ var Sfx = {
         this.load('enemy_hurt.wav');
         this.load('cinboom.wav');
         this.load('sword_attack.wav');
+        this.load('damage_chest.wav');
+        this.load('goblin_death.wav');
     },
 
     load: function(fileName) {

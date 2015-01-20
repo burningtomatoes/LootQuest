@@ -169,6 +169,14 @@ var Player = Entity.extend({
         }
     },
 
+    sfxHurt: function () {
+        Sfx.play('player_hurt.wav');
+    },
+
+    sfxDeath: function () {
+        // TODO
+    },
+
     draw: function(ctx) {
         if (this.damageFlash > 0) {
             ctx.rect(0, 0, Canvas.canvas.width, Canvas.canvas.height);
