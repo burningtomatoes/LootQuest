@@ -55,6 +55,7 @@ var Gfx = {
         this.load('hero');
         this.load('goblin');
         this.load('hero_shadow');
+        this.load('goblin_shadow');
 
         this.load('darkness');
 

@@ -9,7 +9,7 @@ var Goblin = Entity.extend({
         this.height = 18;
 
         this.sprite = Gfx.load('goblin');
-        this.spriteShadow = Gfx.load('hero_shadow');
+        this.spriteShadow = Gfx.load('goblin_shadow');
 
         this.setCoord(9, 9);
 
