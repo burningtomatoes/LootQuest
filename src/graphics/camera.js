@@ -2,15 +2,18 @@ var Camera = {
     x: 0,
     y: 0,
 
+    applyX: 0,
+    applyY: 0,
+
     yLocked: false,
     xLocked: false,
 
     translateX: function(x) {
-        return x + this.x;
+        return x + this.applyX;
     },
 
     translateY: function(y) {
-        return y + this.y;
+        return y + this.applyY;
     },
 
     translate: function(x, y) {
@@ -53,5 +56,8 @@ var Camera = {
                 this.y = MathHelper.clamp(desiredY, -maxYSpace, 0);
             }
         }
+
+        this.applyX = MathHelper.lerp(this.applyX, this.x, 0.1);
+        this.applyY = MathHelper.lerp(this.applyY, this.y, 0.1);
     }
 };
