@@ -62,6 +62,7 @@ var Gfx = {
         // Weapons
         this.load('sword_basic');
         this.load('sword_troll');
+        this.load('sword_super');
         // Containers
         this.load('chest_open');
         this.load('chest_closed');

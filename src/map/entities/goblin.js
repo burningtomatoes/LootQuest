@@ -96,9 +96,8 @@ var Goblin = Entity.extend({
                 // Feeling bloodlust yet?
                 var diffX = Math.abs(this.posX - player.posX);
                 var diffY = Math.abs(this.posY - player.posY);
-                console.log('total diff', diffX + diffY);
 
-                if (diffX + diffY <= 64) {
+                if (diffX + diffY <= 255) {
                     this.killMode = true;
                 }
 

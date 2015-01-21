@@ -2,8 +2,8 @@ var Settings = {
     tileSize: 32,
 
     countFps: true,
-    skipBootLogo: true,
+    skipBootLogo: false,
     skipIntroDialogue: false,
     drawCollisions: false,
-    shutUpSoundscapes: true
+    shutUpSoundscapes: false
 };
