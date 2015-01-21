@@ -18,6 +18,8 @@ var Goblin = Entity.extend({
         this.generateHurtSprite();
     },
 
+    deathDelayer: 0,
+
     moveDirection: 0,
     canContinue: true,
     attentionSpan: 0,
@@ -83,6 +85,21 @@ var Goblin = Entity.extend({
 
             if (!this.canContinue) {
                 this.restTimer = Math.round(Math.random() * 100);
+            }
+        }
+
+        if (this.dead) {
+            this.hurtTimer = Infinity;
+
+            if (this.deathDelayer > 0) {
+                this.deathDelayer--;
+
+                if (this.deathDelayer == 0) {
+                    Game.map.remove(this);
+                }
+            }
+            else if (this.drewHurtFrame) {
+                this.deathDelayer = 3;
             }
         }
     }
