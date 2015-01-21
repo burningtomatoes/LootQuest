@@ -31,9 +31,15 @@ var Container = Entity.extend({
         this.drewHurtFrame = false;
         this.sprite = this.spriteDestroyed;
         this.sfxHurt();
+
+        this.open();
     },
 
     open: function () {
-        this.damage(this.healthCapacity);
+        if (!this.dead) {
+            // This should loop right back to us
+            this.damage(this.healthCapacity);
+            return;
+        }
     }
 });

@@ -18,5 +18,29 @@ var Chest = Container.extend({
         }
 
         this._super(value);
+    },
+
+    open: function () {
+        // Large amount of coin!
+        var randomAmount = Math.round(Math.random() * 100) + 1;
+
+        for (var i = 0; i < randomAmount; i++) {
+            var coin = new Coin();
+
+            do
+            {
+                // Find a random non-blocked position
+                coin.posX = this.posX + Math.round(Math.random() * 100);
+                coin.posY = this.posY + Math.round(Math.random() * 100);
+            }
+            while (Game.map.isRectBlocked(coin.getRect(), false));
+
+            coin.velocityX = Math.random() * 3;
+            coin.velocityY = Math.random() * 3;
+
+            coin.sprite.index = Math.round(Math.random() * coin.sprite.frameCount);
+
+            Game.map.add(coin);
+        }
     }
 });
