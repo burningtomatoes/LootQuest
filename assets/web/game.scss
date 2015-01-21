@@ -202,3 +202,14 @@ $heartbeat-rotation: rotate(45deg);
     @include animation(heartbeat 2000ms ease 0s infinite normal);
   }
 }
+
+#coins {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  font-size: 24px;
+
+  img {
+    vertical-align: -7px;
+  }
+}

@@ -59,7 +59,7 @@ var Entity = Class.extend({
     },
 
     damage: function (changeValue) {
-        if (this.dead) {
+        if (this.dead || !this.receivesDamage) {
             return;
         }
 
@@ -83,6 +83,10 @@ var Entity = Class.extend({
     },
 
     die: function () {
+        if (this.dead || !this.receivesDamage) {
+            return;
+        }
+
         this.dead = true;
         this.weapon = null;
         this.sfxDie();
@@ -196,10 +200,13 @@ var Entity = Class.extend({
         }
 
         if (this.sprite != null) {
-            ctx.drawImage(this.hurtTimer > 0 ? this.spriteHurt : this.sprite, 0, 0, this.width, this.height, this.headBob, 0, this.width, this.height);
-
-            if (!this.drewHurtFrame && this.hurtTimer > 0) {
+            if (this.hurtTimer > 0) {
+                ctx.drawImage(this.spriteHurt, 0, 0, this.width, this.height, this.headBob, 0, this.width, this.height);
                 this.drewHurtFrame = true;
+            } else if (this.sprite.isAnimation) {
+                this.sprite.draw(ctx, this.headBob, 0);
+            } else {
+                ctx.drawImage(this.sprite, 0, 0, this.width, this.height, this.headBob, 0, this.width, this.height);
             }
         }
 
@@ -280,6 +287,10 @@ var Entity = Class.extend({
             }
         } else {
             this.isAttacking = false;
+        }
+
+        if (this.sprite.isAnimation) {
+            this.sprite.update();
         }
     },
 

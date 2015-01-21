@@ -50,22 +50,24 @@ var Gfx = {
     },
 
     preload: function () {
+        // Tilesets
         this.load('map_dungeon');
-
+        // Characters & monsters
         this.load('hero');
         this.load('goblin');
         this.load('hero_shadow');
         this.load('goblin_shadow');
-
+        // UI
         this.load('darkness');
-
+        // Weapons
         this.load('sword_basic');
         this.load('sword_troll');
-
+        // Containers
         this.load('chest_open');
         this.load('chest_closed');
-
         this.load('pot');
         this.load('pot_shards');
+        // Loot
+        this.load('coin');
     }
 };

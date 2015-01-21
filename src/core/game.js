@@ -65,6 +65,10 @@ var Game = {
                         return;
                     }
 
+                    if (!this.map.paused) {
+                        $('#hud').show();
+                    }
+
                     mapReady();
                 }.bind(this));
             } else {

@@ -11,6 +11,7 @@ var Sfx = {
         this.load('damage_chest.wav');
         this.load('goblin_death.wav');
         this.load('break_pot.wav');
+        this.load('coin_pickup.wav');
     },
 
     load: function(fileName) {
