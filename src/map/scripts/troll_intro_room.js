@@ -7,6 +7,7 @@ window.mapScripts['troll_intro_room'] = MapScript.extend({
         this.evilTroll = new Goblin();
         this.evilTroll.direction = Direction.UP;
         this.evilTroll.setCoord(9, 7);
+        this.evilTroll.killMode = true;
         this.map.add(this.evilTroll);
 
         Camera.followEntity(this.evilTroll);

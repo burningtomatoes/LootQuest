@@ -15,6 +15,8 @@ var Goblin = Entity.extend({
 
         this.weapon = new SwordTroll();
 
+        this.movementSpeed = 1.5;
+
         this.generateHurtSprite();
     },
 
@@ -25,7 +27,14 @@ var Goblin = Entity.extend({
     attentionSpan: 0,
     restTimer: 0,
 
-    update: function() {
+    killMode: false,
+
+    damage: function (val) {
+        this.killMode = true;
+        this._super(val);
+    },
+
+    update: function () {
         this._super();
 
         if (!this.dead) {
@@ -49,37 +58,83 @@ var Goblin = Entity.extend({
             this.velocityX = 0;
             this.velocityY = 0;
 
-            if (this.canContinue && this.attentionSpan > 0 && this.restTimer <= 0) {
-                switch (this.moveDirection) {
-                    default:
-                    case Direction.UP:
-                        this.velocityY = -this.movementSpeed;
+            var player = Game.map.player;
+
+            if (this.killMode)
+            {
+                // Want to kill the player
+                var diffX = Math.abs(this.posX - player.posX);
+                var diffY = Math.abs(this.posY - player.posY);
+
+                if (diffX + diffY <= 32 && this.restTimer <= 0 && !this.isAttacking) {
+                    this.attack();
+                    this.restTimer = 30;
+                }
+
+                if (this.restTimer == 0) {
+                    if (player.posY < this.posY && diffY > 16) {
                         this.direction = Direction.UP;
-                        if (!this.canMoveUp()) {
-                            this.canContinue = false;
-                        }
-                        break;
-                    case Direction.DOWN:
-                        this.velocityY = +this.movementSpeed;
+                        this.velocityY = -this.movementSpeed;
+                    }
+                    else if (player.posY > this.posY && diffY > 16) {
                         this.direction = Direction.DOWN;
-                        if (!this.canMoveDown()) {
-                            this.canContinue = false;
-                        }
-                        break;
-                    case Direction.LEFT:
-                        this.velocityX = -this.movementSpeed;
+                        this.velocityY = +this.movementSpeed;
+                    }
+
+                    if (player.posX < this.posX && diffX > 16) {
                         this.direction = Direction.LEFT;
-                        if (!this.canMoveLeft()) {
-                            this.canContinue = false;
-                        }
-                        break;
-                    case Direction.RIGHT:
-                        this.velocityX = +this.movementSpeed;
+                        this.velocityX = -this.movementSpeed;
+                    }
+                    else if (player.posX > this.posX && diffX > 16) {
                         this.direction = Direction.RIGHT;
-                        if (!this.canMoveRight()) {
-                            this.canContinue = false;
-                        }
-                        break;
+                        this.velocityX = +this.movementSpeed;
+                    }
+                }
+            }
+            else
+            {
+                // Feeling bloodlust yet?
+                var diffX = Math.abs(this.posX - player.posX);
+                var diffY = Math.abs(this.posY - player.posY);
+                console.log('total diff', diffX + diffY);
+
+                if (diffX + diffY <= 64) {
+                    this.killMode = true;
+                }
+
+                // Wander mode
+                if (this.canContinue && this.attentionSpan > 0 && this.restTimer <= 0) {
+                    switch (this.moveDirection) {
+                        default:
+                        case Direction.UP:
+                            this.velocityY = -this.movementSpeed;
+                            this.direction = Direction.UP;
+                            if (!this.canMoveUp()) {
+                                this.canContinue = false;
+                            }
+                            break;
+                        case Direction.DOWN:
+                            this.velocityY = +this.movementSpeed;
+                            this.direction = Direction.DOWN;
+                            if (!this.canMoveDown()) {
+                                this.canContinue = false;
+                            }
+                            break;
+                        case Direction.LEFT:
+                            this.velocityX = -this.movementSpeed;
+                            this.direction = Direction.LEFT;
+                            if (!this.canMoveLeft()) {
+                                this.canContinue = false;
+                            }
+                            break;
+                        case Direction.RIGHT:
+                            this.velocityX = +this.movementSpeed;
+                            this.direction = Direction.RIGHT;
+                            if (!this.canMoveRight()) {
+                                this.canContinue = false;
+                            }
+                            break;
+                    }
                 }
             }
 
