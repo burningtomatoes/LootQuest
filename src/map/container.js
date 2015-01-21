@@ -28,6 +28,7 @@ var Container = Entity.extend({
         }
 
         this.dead = true;
+        this.drewHurtFrame = false;
         this.sprite = this.spriteDestroyed;
         this.sfxHurt();
     },

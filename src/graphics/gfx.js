@@ -64,5 +64,8 @@ var Gfx = {
 
         this.load('chest_open');
         this.load('chest_closed');
+
+        this.load('pot');
+        this.load('pot_shards');
     }
 };
