@@ -38,8 +38,11 @@ var Camera = {
         this.trackingEntity = null;
     },
 
-    followEntity: function(e) {
+    trackHard: false,
+
+    followEntity: function(e, hard) {
         this.trackingEntity = e;
+        this.trackHard = !!hard;
     },
 
     update: function() {
@@ -57,7 +60,13 @@ var Camera = {
             }
         }
 
-        this.applyX = MathHelper.lerp(this.applyX, this.x, 0.1);
-        this.applyY = MathHelper.lerp(this.applyY, this.y, 0.1);
+        if (this.trackHard) {
+            this.applyX = this.x;
+            this.applyY = this.y;
+            this.trackHard = false;
+        } else {
+            this.applyX = MathHelper.lerp(this.applyX, this.x, 0.1);
+            this.applyY = MathHelper.lerp(this.applyY, this.y, 0.1);
+        }
     }
 };

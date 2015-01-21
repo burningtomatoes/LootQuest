@@ -399,7 +399,7 @@ var Map = Class.extend({
         this.player = e;
         this.add(e);
 
-        Camera.followEntity(e);
+        Camera.followEntity(e, true);
     },
 
     remove: function (e) {
