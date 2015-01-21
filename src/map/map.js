@@ -108,7 +108,7 @@ var Map = Class.extend({
         Music.stopAll();
 
         var props = this.data.properties;
-        if (props.ambience) {
+        if (props.ambience && !Settings.shutUpSoundscapes) {
             Music.loopSound(this.data.properties.ambience);
         }
 

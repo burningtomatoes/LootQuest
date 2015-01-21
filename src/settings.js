@@ -4,5 +4,6 @@ var Settings = {
     countFps: true,
     skipBootLogo: true,
     skipIntroDialogue: true,
-    drawCollisions: false
+    drawCollisions: false,
+    shutUpSoundscapes: true
 };
