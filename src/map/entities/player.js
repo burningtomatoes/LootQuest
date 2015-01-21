@@ -21,10 +21,9 @@ var Player = Entity.extend({
         this.spriteShadow = Gfx.load('hero_shadow');
 
         this.healthCapacity = 12;
-        this.healthValue = this.healthCapacity;
-        this.syncHealthUi();
-
         this.weapon = Inventory.currentWeapon;
+        this.healthValue = Inventory.health;
+        this.syncHealthUi();
 
         this.generateHurtSprite();
     },
@@ -63,6 +62,8 @@ var Player = Entity.extend({
         this._super(changeValue);
 
         this.syncHealthUi();
+
+        Inventory.health = this.healthValue;
     },
 
     die: function() {

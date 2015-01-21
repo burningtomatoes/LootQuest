@@ -1,10 +1,12 @@
 var Inventory = {
     currentWeapon: null,
     coins: 0,
+    health: 0,
 
     clear: function () {
         this.setWeapon(null);
         this.coins = 0;
+        this.health = 12;
     },
 
     addCoins: function (amt) {
