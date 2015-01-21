@@ -23,7 +23,7 @@ window.mapScripts['wake_up'] = MapScript.extend({
             var chest = new Chest();
             chest.setCoord(9, 2);
             chest.direction = Direction.DOWN;
-            chest.pickUp = function () {
+            chest.open = function () {
                 this._super();
 
                 Dialogue.prepare([
