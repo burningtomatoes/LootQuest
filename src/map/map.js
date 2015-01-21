@@ -214,6 +214,9 @@ var Map = Class.extend({
                     case 'chest':
                         entity = new Chest();
                         break;
+                    case 'coin':
+                        entity = new Coin();
+                        break;
                 }
 
                 entity.setCoord(x, y);
