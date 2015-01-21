@@ -3,7 +3,7 @@ var Settings = {
 
     countFps: true,
     skipBootLogo: true,
-    skipIntroDialogue: true,
+    skipIntroDialogue: false,
     drawCollisions: false,
     shutUpSoundscapes: true
 };
