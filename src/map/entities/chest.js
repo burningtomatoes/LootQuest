@@ -9,5 +9,14 @@ var Chest = Container.extend({
         this.height = 32;
 
         this.generateHurtSprite();
+    },
+
+    damage: function (value) {
+        if (value === 0) {
+            // This chest can be opened w/o a weapon as well. Zero damage is fine by us.
+            value++;
+        }
+
+        this._super(value);
     }
 });

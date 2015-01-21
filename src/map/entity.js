@@ -145,13 +145,16 @@ var Entity = Class.extend({
     attackTimer: 0,
 
     attack: function () {
-        if (this.isAttacking || this.weapon == null) {
+        if (this.isAttacking) {
             return;
         }
 
         this.isAttacking = true;
         this.attackTimer = 10;
-        this.weapon.playSfx();
+
+        if (this.weapon != null) {
+            this.weapon.playSfx();
+        }
 
         var attackRect = this.getAttackRadius();
         var entitiesAffected = Game.map.getEntitiesInRect(attackRect, this);
@@ -163,7 +166,7 @@ var Entity = Class.extend({
                 continue;
             }
 
-            entity.damage(this.weapon.damage);
+            entity.damage(this.weapon == null ? 0 : this.weapon.damage);
         }
     },
 
@@ -322,29 +325,32 @@ var Entity = Class.extend({
     getAttackRadius: function () {
         var baseRect = this.getRect();
 
+        var weapHeight = this.weapon == null ? 10 : this.weapon.height;
+        var weapWidth = this.weapon == null ? 10 : this.weapon.width;
+
         var margin = 6;
         switch (this.direction) {
             default:
             case Direction.DOWN:
                 baseRect.top += this.height - margin;
-                baseRect.height = this.weapon.height;
-                baseRect.width = this.weapon.width;
+                baseRect.height = weapHeight;
+                baseRect.width = weapWidth;
                 baseRect.left += this.width / 2;
                 break;
             case Direction.UP:
                 baseRect.top -= this.height;
-                baseRect.height = this.weapon.height;
-                baseRect.width = this.weapon.width;
+                baseRect.height = weapHeight;
+                baseRect.width = weapWidth;
                 break;
             case Direction.LEFT:
-                baseRect.height = this.weapon.width;
-                baseRect.width = this.weapon.height;
+                baseRect.height = weapWidth;
+                baseRect.width = weapHeight;
                 baseRect.left -= baseRect.width / 2;
                 baseRect.top += margin;
                 break;
             case Direction.RIGHT:
-                baseRect.height = this.weapon.width;
-                baseRect.width = this.weapon.height;
+                baseRect.height = weapWidth;
+                baseRect.width = weapHeight;
                 baseRect.left += baseRect.width;
                 baseRect.top -= margin;
                 break;
