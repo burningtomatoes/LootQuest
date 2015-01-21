@@ -42,7 +42,7 @@ These are properties set on the map itself.
 ### Layer properties
 These are properties that can be set on each layer.
 
-- **`spawn`**: If set, each tile that is not empty on this layer will spawn an entity. The type of entity is determined based on the value of this property. Possible values at the moment: `goblin`.
+- **`spawn`**: If set, each tile that is not empty on this layer will spawn an entity. The type of entity is determined based on the value of this property. Possible values at the moment: `goblin`, `pot`, `chest`, `coin`.
 - **`blocked`**: If set to value "1", each tile that is not empty on this layer will be blocked for movement by both the player and NPCs.
 - **`blocked_npc`**: If set to value "1", each tile that is not empty on this layer will be blocked for movement for NPCs only (player is not affected).
 - **`teleport`**: Set this to the ID of the map you wish to teleport the player to when they stand on this square. When the player touches the square, they will keep moving for a second or so in the current direction, and then teleport onto the next map. See the `spawn_x` map property to determine where the player will appear on the other map.
