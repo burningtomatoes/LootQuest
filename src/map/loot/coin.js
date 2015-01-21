@@ -13,5 +13,7 @@ var Coin = Loot.extend({
         this._super();
 
         Sfx.play('coin_pickup.wav');
+
+        Inventory.addCoins(1);
     }
 });

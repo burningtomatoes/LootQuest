@@ -14,6 +14,8 @@ var Game = {
         this.maps = [];
         this.lastMapId = null;
 
+        Inventory.clear();
+
         this.loadMap('dungeon_1');
     },
 
