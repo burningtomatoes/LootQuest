@@ -101,9 +101,6 @@ var Map = Class.extend({
         this.configurePlayerSpawn(player);
         this.addPlayer(player);
 
-        // Spawns (NPCs) as defined in the map data
-        this.prepareMapSpawns();
-
         // Run ambient soundscapes
         Music.stopAll();
 
@@ -119,6 +116,9 @@ var Map = Class.extend({
         } else {
             this.mapScript = new MapScript(this); // dummy
         }
+
+        // Spawns (NPCs) as defined in the map data
+        this.prepareMapSpawns();
     },
 
     configurePlayerSpawn: function (playerEntity) {
@@ -171,9 +171,6 @@ var Map = Class.extend({
     prepareMapSpawns: function() {
         var layerCount = this.layers.length;
 
-        var x = -1;
-        var y = 0;
-
         for (var i = 0; i < layerCount; i++) {
             var layer = this.layers[i];
             var spawnId = layer.properties.spawn;
@@ -183,6 +180,9 @@ var Map = Class.extend({
             }
 
             var layerDataLength = layer.data.length;
+
+            var x = -1;
+            var y = 0;
 
             for (var tileIdx = 0; tileIdx < layerDataLength; tileIdx++) {
                 var tid = layer.data[tileIdx];
@@ -220,7 +220,7 @@ var Map = Class.extend({
                 }
 
                 entity.setCoord(x, y);
-                this.add(entity);
+                Game.map.add(entity);
             }
         }
     },
@@ -487,7 +487,7 @@ var Map = Class.extend({
         for (var i = 0; i < entityCount; i++) {
             var e = this.entities[i];
 
-            if (e == this.player) {
+            if (e === this.player) {
                 continue;
             }
 
