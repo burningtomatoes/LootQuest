@@ -141,6 +141,24 @@ var Player = Entity.extend({
             else if (this.touchPainTimer > 0) {
                 this.touchPainTimer--;
             }
+
+            // Pickups //
+            var entities = Game.map.entities;
+            var entitiesLength = entities.length;
+
+            for (var i = 0; i < entitiesLength; i++) {
+                var entity = entities[i];
+
+                if (!entity.isPickupable || !entity.instantPickup) {
+                    continue;
+                }
+
+                var theirRect = entity.getRect();
+
+                if (Utils.rectIntersects(theirRect, ourRect)) {
+                    entity.pickUp();
+                }
+            }
         }
 
         if (this.dead) {

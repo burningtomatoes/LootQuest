@@ -11,7 +11,7 @@ var Loot = Entity.extend({
         // ...
     },
 
-    onPickup: function () {
+    pickUp: function () {
         // Remove ourselves from the world
         Game.map.remove(this);
     },
